@@ -19,5 +19,7 @@
 .order-details-field{
     display: flex;
     justify-content: space-between;
+    height: 30px;
+    margin: 5px;
 }
 

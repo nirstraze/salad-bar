@@ -5,12 +5,30 @@ import { OrderStage } from "../state/salad-bar-store";
 import { LandingPage } from "./landing-page";
 import { IngredientsPage } from "./ingredients/ingredients-page";
 import { CheckoutPage } from "./checkout/checkout-page";
+import { SummaryModal } from "./summary-modal/summary-modal";
+import { OrderSummary } from "./summary-modal/order-summary";
 
 import saladBarStore from "../state/salad-bar-store";
 
 @observer
 export class StageContainer extends React.Component {
   render() {
+    return (
+      <div>
+        {saladBarStore.showSummaryModal && (
+          <SummaryModal show handleClose={this.changeStage(OrderStage.Landing)}>
+            <OrderSummary />
+          </SummaryModal>
+        )}
+        {this.getStage()}
+      </div>
+    );
+  }
+
+  changeStage = (newStage: OrderStage) => () =>
+    saladBarStore.changeStage(newStage);
+
+  private getStage() {
     switch (saladBarStore.currentStage) {
       case OrderStage.Landing:
         return (
@@ -25,18 +43,8 @@ export class StageContainer extends React.Component {
         );
       case OrderStage.Checkout:
         return (
-          <CheckoutPage
-            goToPrev={this.changeStage(OrderStage.Ingrediants)}
-            goToNext={this.changeStage(OrderStage.Summary)}
-          />
+          <CheckoutPage goToPrev={this.changeStage(OrderStage.Ingrediants)} />
         );
-      case OrderStage.Summary:
-        return "summaSummaryry";
     }
   }
-
-  changeStage = (newStage: OrderStage) => () =>
-    saladBarStore.changeStage(newStage);
 }
-
-

@@ -15,10 +15,7 @@ export class CheckoutPage extends React.Component<IStagble> {
       .filter(entry => entry[1].amount)
       .map(entry => entry[1]);
 
-    const totalPrice = selectedIngredients.reduce(
-      (total, ing) => total + ing.amount * ing.price,
-      0
-    );
+    const totalPrice = saladBarStore.getTotalPrice();
 
     return (
       <>
@@ -44,14 +41,16 @@ export class CheckoutPage extends React.Component<IStagble> {
             )}
             {this.getOrderDetailsField(
               "Additional Notes",
-              saladBarStore.setName /*change*/
+              saladBarStore.setAdditionalNotes
             )}
             <div className="buttons-wrapper">
               <span className="button" onClick={this.goBackButtonClick}>
                 {"Go Back"}
               </span>
               <span
-                className={"button" /* + saladBarStore.isValid ? "" : " disabled" */}
+                className={
+                  "button" /* + saladBarStore.isValid ? "" : " disabled" */
+                }
                 onClick={this.orderButtonClick}
               >
                 {"Order"}
@@ -63,7 +62,7 @@ export class CheckoutPage extends React.Component<IStagble> {
     );
   }
 
-  orderButtonClick = () => this.props.goToNext && this.props.goToNext();
+  orderButtonClick = () => saladBarStore.setShowSummaryModal(true);
 
   goBackButtonClick = () => this.props.goToPrev && this.props.goToPrev();
 
