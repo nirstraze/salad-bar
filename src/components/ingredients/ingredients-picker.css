@@ -12,12 +12,12 @@
 }
 
 .ingredients-picker > .info > .name-label {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
 }
 
 .ingredients-picker > .info > .price-label {
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(238, 238, 238, 0.842);
 }
 

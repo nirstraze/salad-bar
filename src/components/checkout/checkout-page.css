@@ -1,0 +1,23 @@
+.checkout-wrapper{
+    display:flex;
+}
+
+
+.buttons-wrapper{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buttons-wrapper>.button{
+    position: relative;
+}
+
+.buttons-wrapper>.button.disabled{
+    background: grey;
+}
+
+.order-details-field{
+    display: flex;
+    justify-content: space-between;
+}
+

@@ -1,21 +1,16 @@
 import * as React from "react";
 import { observer } from "mobx-react";
+
 import { OrderStage } from "../state/salad-bar-store";
 import { LandingPage } from "./landing-page";
+import { IngredientsPage } from "./ingredients/ingredients-page";
+import { CheckoutPage } from "./checkout/checkout-page";
 
 import saladBarStore from "../state/salad-bar-store";
-import { IngredientsPage } from "./ingredients/ingredients-page";
-import { CheckoutPage } from "./checkout-page";
-
-export interface StageContainerProps {
-  // stage: OrderStage;
-}
 
 @observer
-export class StageContainer extends React.Component<StageContainerProps> {
+export class StageContainer extends React.Component {
   render() {
-    //const { stage } = this.props;
-
     switch (saladBarStore.currentStage) {
       case OrderStage.Landing:
         return (
@@ -43,3 +38,5 @@ export class StageContainer extends React.Component<StageContainerProps> {
   changeStage = (newStage: OrderStage) => () =>
     saladBarStore.changeStage(newStage);
 }
+
+

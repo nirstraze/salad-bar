@@ -1,4 +1,4 @@
-import { action, observable, runInAction } from "mobx";
+import { action, observable, runInAction, computed } from "mobx";
 import { Ingredient } from "src/models/ingredient";
 
 export enum OrderStage {
@@ -10,13 +10,18 @@ export enum OrderStage {
 
 class SaladBarStore {
   @observable currentStage: OrderStage;
-  // @observable ingredients: Ingredient[];
   @observable ingredientsMap: Map<string, Ingredient> = new Map<
     string,
     Ingredient
   >();
 
-  currentOrder: Map<string, number> = new Map<string, number>();
+  @observable email: string;
+  @observable name: string;
+
+  @computed
+  get isValid(): boolean {
+    return !!this.email && this.email.length > 5;
+  }
 
   constructor() {
     this.currentStage = OrderStage.Landing;
@@ -27,24 +32,32 @@ class SaladBarStore {
     this.currentStage = stage;
   }
 
+  @action
+  setEmail = (email: string) => {
+    this.email = email;
+  }
+
+  @action
+  setName(name: string) {
+    this.name = name;
+  }
+
   loadIngredients() {
-    fetch("http://localhost:3000/salad.json")
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        runInAction(() => {
-          //this.ingredients = data.items;
-          data.items.forEach((item: Ingredient) => {
-            this.ingredientsMap.set(item.name, item);
+    if (!this.ingredientsMap.size)
+      fetch("http://localhost:3000/salad.json")
+        .then(res => {
+          return res.json();
+        })
+        .then(data => {
+          runInAction(() => {
+            data.items.forEach((item: Ingredient) => {
+              this.ingredientsMap.set(item.name, item);
+            });
           });
         });
-      });
   }
 
   orderItem(itemName: string, amount: number) {
-    this.currentOrder.set(itemName, amount);
-
     const ingtoSet = this.ingredientsMap.get(itemName);
     if (ingtoSet) ingtoSet.amount = amount;
   }
