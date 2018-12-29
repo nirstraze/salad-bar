@@ -10,13 +10,14 @@ export class LandingPage extends React.Component<LandingPageProps> {
   render() {
     return (
       <>
-        {"Welcome"}
-        <button onClick={this.orderSaladOnClick}>{"Order Salad"}</button>
+        <div className="page-header">{"Welcome"}</div>
+
+        <div className="button" onClick={this.orderSaladOnClick}>
+          {"Order Salad"}
+        </div>
       </>
     );
   }
 
-  orderSaladOnClick = () => 
-    this.props.goToNext && this.props.goToNext();
-  ;
+  orderSaladOnClick = () => this.props.goToNext && this.props.goToNext();
 }

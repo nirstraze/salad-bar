@@ -13,7 +13,7 @@ class App extends React.Component {
         <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p> */}
-        <div>Salad Bar .</div>
+        <div className="store-header">Salad Bar .</div>
         <StageContainer />
       </div>
     );

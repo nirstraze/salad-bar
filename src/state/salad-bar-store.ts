@@ -1,5 +1,6 @@
 import { action, observable, runInAction } from "mobx";
 import { Ingredient } from "src/models/ingredient";
+
 export enum OrderStage {
   Landing,
   Ingrediants,
@@ -9,7 +10,13 @@ export enum OrderStage {
 
 class SaladBarStore {
   @observable currentStage: OrderStage;
-  @observable ingredients: Ingredient[];
+  // @observable ingredients: Ingredient[];
+  @observable ingredientsMap: Map<string, Ingredient> = new Map<
+    string,
+    Ingredient
+  >();
+
+  currentOrder: Map<string, number> = new Map<string, number>();
 
   constructor() {
     this.currentStage = OrderStage.Landing;
@@ -26,9 +33,20 @@ class SaladBarStore {
         return res.json();
       })
       .then(data => {
-        runInAction(() => (this.ingredients = data.items));
-        console.log(data);
+        runInAction(() => {
+          //this.ingredients = data.items;
+          data.items.forEach((item: Ingredient) => {
+            this.ingredientsMap.set(item.name, item);
+          });
+        });
       });
+  }
+
+  orderItem(itemName: string, amount: number) {
+    this.currentOrder.set(itemName, amount);
+
+    const ingtoSet = this.ingredientsMap.get(itemName);
+    if (ingtoSet) ingtoSet.amount = amount;
   }
 }
 
